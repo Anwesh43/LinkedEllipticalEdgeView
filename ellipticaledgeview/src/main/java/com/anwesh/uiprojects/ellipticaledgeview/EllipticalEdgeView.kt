@@ -55,4 +55,24 @@ class EllipticalEdgeView(ctx : Context) : View(ctx) {
             return view
         }
     }
+
+    data class State(var scale : Float = 0f, var prevScale : Float = 0f, var dir : Float = 0f) {
+
+        fun update(cb : (Float) -> Unit) {
+            scale += scale.updateValue(dir, 4, 1)
+            if (Math.abs(scale - prevScale) > 1) {
+                scale = prevScale + dir
+                dir = 0f
+                prevScale = scale
+                cb(prevScale)
+            }
+        }
+
+        fun startUpdaitng(cb : () -> Unit) {
+            if (dir == 0f) {
+                dir = 1 - 2 * prevScale
+                cb()
+            }
+        }
+    }
 }
