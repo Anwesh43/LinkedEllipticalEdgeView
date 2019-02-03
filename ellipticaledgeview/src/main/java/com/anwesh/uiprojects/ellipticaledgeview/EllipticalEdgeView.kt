@@ -19,11 +19,12 @@ val nodes : Int = 5
 val lines : Int = 4
 val strokeFactor : Int = 90
 val sizeFactor : Float = 3f
-val backColor : Int = Color.parseColor("#BDBDBD")
+val backColor : Int = Color.parseColor("#212121")
 val foreColor : Int = Color.parseColor("#EF6C00")
 val aFactor : Int = 1
 val bFactor : Float = 3.5f
 val rotation : Float = 90f
+val delay : Long = 10
 
 fun Canvas.drawWelcomeText(paint : Paint) {
     val textSizeFactor : Int = 8
@@ -137,7 +138,7 @@ class EllipticalEdgeView(ctx : Context) : View(ctx) {
             if (animated) {
                 cb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(delay)
                     view.invalidate()
                 } catch(ex : Exception) {
 
