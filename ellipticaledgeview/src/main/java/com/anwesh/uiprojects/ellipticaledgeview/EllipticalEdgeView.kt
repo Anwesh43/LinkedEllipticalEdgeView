@@ -21,6 +21,8 @@ val strokeFactor : Int = 90
 val sizeFactor : Float = 2.8f
 val backColor : Int = Color.parseColor("#BDBDBD")
 val foreColor : Int = Color.parseColor("#EF6C00")
+val aFactor : Int = 1
+val bFactor : Int = 3
 
 fun Canvas.drawWelcomeText(paint : Paint) {
     val textSizeFactor : Int = 8
@@ -38,6 +40,40 @@ fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale
 fun Float.scaleFactor() : Float = Math.floor(this / scDiv).toFloat()
 fun Float.mirrorValue(a : Int, b : Int) : Float = (1 - scaleFactor()) * a.inverse() + scaleFactor() * b.inverse()
 fun Float.updateValue(dir : Float, a : Int, b : Int) : Float = mirrorValue(a, b) * dir * scGap
+
+fun Paint.setStyle(w : Float, h : Float) {
+    color = foreColor
+    strokeWidth = Math.min(w, h) / strokeFactor
+    strokeCap = Paint.Cap.ROUND
+    style = Paint.Style.STROKE
+}
+
+fun Canvas.drawEllipticalPath(a : Float, b : Float, scale : Float, paint : Paint) {
+    val path : Path = Path()
+    val deg : Int = 360
+    for (j in (0..deg)) {
+        val x : Float = a * Math.cos(j * Math.PI / 180).toFloat()
+        val y : Float = (b * scale) * Math.sin(j * Math.PI/180).toFloat()
+        if (j == 0) {
+            path.moveTo(x, y)
+        } else {
+            path.lineTo(x, y)
+        }
+    }
+    drawPath(path, paint)
+}
+fun Canvas.drawEENode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = w / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    val sc1 : Float = scale.divideScale(0, 2)
+    val sc2 : Float = scale.divideScale(1, 2)
+    paint.setStyle(w, h)
+    for (j in 0..(lines - 1)) {
+        drawEllipticalPath(size / aFactor, size / bFactor, sc1.divideScale(j, lines), paint)
+    }
+}
 
 class EllipticalEdgeView(ctx : Context) : View(ctx) {
 
