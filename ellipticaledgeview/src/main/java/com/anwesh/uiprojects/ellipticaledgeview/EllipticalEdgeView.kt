@@ -29,4 +29,13 @@ class EllipticalEdgeView(ctx : Context) : View(ctx) {
         }
         return true
     }
+
+    companion object {
+
+        fun create(activity : Activity) : EllipticalEdgeView {
+            val view : EllipticalEdgeView = EllipticalEdgeView(activity)
+            activity.setContentView(view)
+            return view 
+        }
+    }
 }
