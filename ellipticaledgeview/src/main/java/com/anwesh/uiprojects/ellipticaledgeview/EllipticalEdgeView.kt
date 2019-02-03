@@ -216,4 +216,27 @@ class EllipticalEdgeView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : EllipticalEdgeView) {
+
+        private val animator : Animator = Animator(view)
+        private val ee : EllipticalEdge = EllipticalEdge(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            ee.draw(canvas, paint)
+            animator.animate {
+                ee.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            ee.startUpdating {
+                animator.start()
+            }
+        }
+    }
+
 }
