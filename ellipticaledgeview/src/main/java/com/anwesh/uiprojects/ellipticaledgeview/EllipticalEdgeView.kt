@@ -14,8 +14,8 @@ import android.app.Activity
 import android.content.Context
 
 fun Canvas.drawWelcomeText(paint : Paint) {
-    val textSizeFactor : Int = 15
-    val welcomeText : String = "W.E.L.C,O.M.E"
+    val textSizeFactor : Int = 8
+    val welcomeText : String = "W.E.L.C.O.M.E"
     drawColor(Color.CYAN)
     paint.color = Color.WHITE
     paint.textSize = Math.min(width, height).toFloat() / textSizeFactor
