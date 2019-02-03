@@ -18,11 +18,12 @@ val scDiv : Double = 0.51
 val nodes : Int = 5
 val lines : Int = 4
 val strokeFactor : Int = 90
-val sizeFactor : Float = 2.8f
+val sizeFactor : Float = 3f
 val backColor : Int = Color.parseColor("#BDBDBD")
 val foreColor : Int = Color.parseColor("#EF6C00")
 val aFactor : Int = 1
-val bFactor : Int = 3
+val bFactor : Float = 3.5f
+val rotation : Float = 90f
 
 fun Canvas.drawWelcomeText(paint : Paint) {
     val textSizeFactor : Int = 8
@@ -70,9 +71,17 @@ fun Canvas.drawEENode(i : Int, scale : Float, paint : Paint) {
     val sc1 : Float = scale.divideScale(0, 2)
     val sc2 : Float = scale.divideScale(1, 2)
     paint.setStyle(w, h)
+    save()
+    translate(gap * (i + 1), h / 2)
+    rotate(rotation * sc2)
     for (j in 0..(lines - 1)) {
+        save()
+        rotate(90f * j)
+        translate(0f, -size)
         drawEllipticalPath(size / aFactor, size / bFactor, sc1.divideScale(j, lines), paint)
+        restore()
     }
+    restore()
 }
 
 class EllipticalEdgeView(ctx : Context) : View(ctx) {
